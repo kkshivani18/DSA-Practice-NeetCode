@@ -1,0 +1,23 @@
+class Solution {
+public:
+    vector<vector<int>> result;
+
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+        vector<int> curr;
+        backtrack(nums, curr, 0);
+        return result;
+    }
+
+    void backtrack(vector<int>& nums, vector<int>& curr, int index){
+        result.push_back(curr);
+
+        for(int i=index; i<nums.size(); i++){
+            if(i > index && nums[i] == nums[i-1]) continue;
+
+            curr.push_back(nums[i]);
+            backtrack(nums, curr, i+1);
+            curr.pop_back();
+        }
+    }
+};
