@@ -1,0 +1,33 @@
+class Solution {
+public:
+    int rows, cols; 
+    bool exist(vector<vector<char>>& board, string word) {
+        rows = board.size();
+        cols = board[0].size();
+
+        for(int r=0; r<rows; r++){
+            for(int c=0; c<cols; c++){
+                if(dfs(board, word, r, c, 0)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    bool dfs(vector<vector<char>>& board, string word, int row, int col, int index){
+        if(index == word.size()) return true;
+
+        if(row < 0 || col < 0 || row >= rows || col >= cols || 
+        board[row][col] != word[index] || board[row][col] == '-') return false;
+
+        board[row][col] = '-';
+        bool found = dfs(board, word, row + 1, col, index + 1) ||
+                     dfs(board, word, row, col + 1, index + 1) ||
+                     dfs(board, word, row - 1, col, index + 1) ||
+                     dfs(board, word, row, col - 1, index + 1);
+
+        board[row][col] = word[index];
+        return found;
+    }
+};
