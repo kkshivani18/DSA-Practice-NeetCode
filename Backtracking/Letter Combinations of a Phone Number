@@ -1,0 +1,23 @@
+class Solution {
+public:
+    vector<string> result;
+    vector<string> digitChar = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+
+    vector<string> letterCombinations(string digits) {
+        if(digits.empty()) return result; 
+        backtrack(digits, "", 0);
+        return result;
+    }
+
+    void backtrack(string& digits, string curr, int index){
+        if(curr.size() == digits.size()){
+            result.push_back(curr);
+            return;
+        }
+
+        string character =  digitChar[digits[index] - '0'];
+        for(char ch: character){
+            backtrack(digits, curr + ch, index + 1);
+        }
+    }
+};
