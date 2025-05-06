@@ -1,0 +1,32 @@
+class Solution {
+public:
+    vector<vector<string>> result;
+    vector<string> board;
+    vector<bool> cols, diagN, diagP;
+
+    vector<vector<string>> solveNQueens(int n) {
+        board = vector<string>(n, string(n, '.'));
+        cols = vector<bool>(n, false);
+        diagN = vector<bool>(2*n -1, false);
+        diagP = vector<bool>(2*n -1, false);
+        backtrack(0, n);
+        return result;
+    }
+
+    void backtrack(int row, int n){
+        if(row == n){
+            result.push_back(board);
+            return;
+        }
+
+        for(int col = 0; col<n; col++){
+            if(cols[col] || diagN[row - col + n - 1] || diagP[row + col]) continue;
+
+            board[row][col] = 'Q';
+            cols[col] = diagN[row - col + n - 1] = diagP[row + col] = true;
+            backtrack(row + 1, n);
+            board[row][col] = '.';
+            cols[col] = diagN[row - col + n - 1] = diagP[row + col] = false;
+        }
+    }
+};
