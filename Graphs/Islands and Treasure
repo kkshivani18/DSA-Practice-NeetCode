@@ -1,0 +1,32 @@
+class Solution {
+public:
+    void islandsAndTreasure(vector<vector<int>>& grid) {
+       vector<pair<int, int>> directions = {{1,0}, {-1,0}, {0,1}, {0,-1}};
+       queue<pair<int, int>> q;
+       int m = grid.size();
+       int n = grid[0].size();
+       if(m == 0) return;
+
+       for(int i=0; i<m; i++){
+        for(int j=0; j<n; j++){
+            if(grid[i][j] == 0){
+                q.push({i,j});
+            }
+          }
+        } 
+
+        while(!q.empty()){
+            auto [x, y] = q.front(); 
+            q.pop();
+            for (auto [dx, dy] : directions) {
+                int ax = x + dx;
+                int ay = y + dy;
+
+                if(ax >= 0 && ay >= 0 && ax < m && ay < n && grid[ax][ay] == INT_MAX){
+                    grid[ax][ay] = 1 + grid[x][y];
+                    q.push({ax, ay});
+                }
+            }
+        }
+    }
+};
