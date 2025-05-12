@@ -1,0 +1,45 @@
+class Solution {
+public:
+    int rows, cols;
+    vector<pair<int, int>> directions = {{1,0}, {-1,0}, {0,1}, {0,-1}};
+
+    void dfs(int i, int j, vector<vector<int>>& heights, vector<vector<bool>>& visited, int prevH){ 
+        if(i<0 || j<0 || i>=rows || j>=cols || visited[i][j] || heights[i][j] < prevH) return;
+
+        visited[i][j] = true;
+        for(auto [dx, dy] : directions){
+            dfs(i + dx, j + dy, heights, visited, heights[i][j]);
+        }
+    }
+
+    vector<vector<int>> pacificAtlantic(vector<vector<int>>& heights) {
+        rows = heights.size();
+        cols = heights[0].size();
+        vector<vector<bool>> pacific(rows, vector<bool>(cols, false));
+        vector<vector<bool>> atlantic(rows, vector<bool>(cols, false));
+
+         for(int i=0; i<rows; i++){
+            dfs(i, 0, heights, pacific, heights[i][0]);
+            for(int j=0; j<cols; j++){
+                dfs(0, j, heights, pacific, heights[0][j]);
+            }
+        }
+
+        for(int i=0; i<rows; i++){
+            dfs(i, cols-1, heights, atlantic, heights[i][cols-1]);
+            for(int j=0; j<cols; j++){
+                dfs(rows-1, j, heights, atlantic, heights[rows-1][j]);
+            }
+        }
+
+        vector<vector<int>> result;
+        for(int i=0; i<rows; i++){
+            for(int j=0; j<cols; j++){
+                if(pacific[i][j] && atlantic[i][j]){
+                    result.push_back({i,j});
+                }
+            }
+        }
+        return result;   
+    }
+};
