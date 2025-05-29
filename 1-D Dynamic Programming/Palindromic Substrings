@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int countSubstrings(string s) {
+        int result = 0;
+        int n = s.size();
+
+        for(int i=0; i<n; i++){
+            result += countPalindrome(s, i, i);
+            result += countPalindrome(s, i, i + 1);
+        }
+        return result;
+    }
+
+private: 
+    int countPalindrome(string s, int left, int right){
+        int result = 0;
+        while(left >= 0 && right < s.size() && s[left] == s[right]){
+            result++;
+            left--;
+            right++;
+        }
+        return result;
+    }
+};
